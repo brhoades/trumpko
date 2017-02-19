@@ -1,5 +1,6 @@
-PATH
-  remote: ../markov_speech
+GIT
+  remote: https://github.com/brhoades/markov_speech
+  revision: f68bc736b825df92c904fef447d92f4721300fa7
   specs:
     markov_speech (0.1.0)
       activerecord
