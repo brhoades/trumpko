@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/brhoades/markov_speech
-  revision: f68bc736b825df92c904fef447d92f4721300fa7
+  revision: 9ea3ee0d75b69c6689f5954466dd3178d8b12802
   specs:
     markov_speech (0.1.0)
       activerecord
@@ -30,6 +30,7 @@ GEM
     equalizer (0.0.11)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
+    htmlentities (4.3.4)
     http (2.2.1)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -46,6 +47,8 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     public_suffix (2.0.5)
+    rufus-scheduler (3.3.4)
+      tzinfo
     simple_oauth (0.3.1)
     sqlite3 (1.3.13)
     thread_safe (0.3.5)
@@ -69,7 +72,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  htmlentities
   markov_speech!
+  rufus-scheduler
   twitter
 
 BUNDLED WITH
