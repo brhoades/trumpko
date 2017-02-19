@@ -34,7 +34,7 @@ $twitter_client.home_timeline.reverse.each do |tweet|
     word = nil
     loop do
       word = Chain.where(source: src).sample.word
-      break if word.text !~ /[[:punct:]]/ and word.text.size > 3
+      break if word.text !~ /[[:punct:]]/ and word.text.size > 3 and Chain.where(word: word).size > 1
     end
     puts "SOURCE: #{word.text}"
 
@@ -45,7 +45,7 @@ $twitter_client.home_timeline.reverse.each do |tweet|
         break if Markov::Evaluate::Evaluate.eval(sentence) > 0.2 and gen.to_s.size < 140
     end
 
-    puts "TWEET: #{gen.to_s}"
+    puts "GENERATED: #{gen.to_s}"
     if not options.has_key?(:dry)
       $twitter_client.update(gen.to_s)
       puts "TWEETED"
