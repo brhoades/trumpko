@@ -50,7 +50,7 @@ def check_tweets(logger, options)
       loop do
         logger.debug("Throwing out word \"#{word.text}\"") if word
         word = Chain.where(source: src).sample.word
-        break if word.text !~ /[[:punct:]]/ and word.text.size > 3 and Chain.where(word: word).size > 1
+        break if word.text !~ /^[[:punct:]]+$/ and word.text.size > 3 and Chain.where(word: word).size > 1
       end
       logger.info("Source word chosen: \"#{word.text}\"")
 
