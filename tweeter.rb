@@ -67,7 +67,7 @@ def check_tweets(logger, options)
 
       gen = nil
       tries = 0
-      score_threshold = 0.8
+      score_threshold = 0.901
       size_threshold = 140
       tries_threshold = 100
       loop do
