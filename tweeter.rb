@@ -29,6 +29,8 @@ def delete_source(logger, text)
   if src
     Chain.where(source: src).map { |c| c.delete if c }
     src.delete
+  else
+    logger.warn("No source to delete.")
   end
 end
 
@@ -47,18 +49,33 @@ def check_tweets(logger, options)
 
       # Choose a random word and chain off of it (later: chose a good random word)
       word = nil
+      tries = 0
+      tries_threshold = 100
       loop do
+        tries += 1
         logger.debug("Throwing out word \"#{word.text}\"") if word
         word = Chain.where(source: src).sample.word
         break if word.text !~ /^[[:punct:]]+$/ and word.text.size > 3 and Chain.where(word: word).size > 1
+        break if tries > tries_threshold
       end
       logger.info("Source word chosen: \"#{word.text}\"")
 
+      if tries > tries_threshold
+        logger.error("Tries to select a word have exceeded the threshold (#{tries_threshold}). Skipping this tweet.")
+        break
+      end
+
       gen = nil
-      lastscore = nil
+      tries = 0
       score_threshold = 0.8
       size_threshold = 140
+      tries_threshold = 100
       loop do
+        if tries > tries_threshold
+          logger.error("Tries for sentence generations have exceeded threshold (#{tries_threshold}). Raising an exception so we can try our luck later.")
+          raise Exception
+        end
+        tries += 1
         gen = Markov::Generate::Generate.new(8)
         sentence = gen.chain(word.text)
 
